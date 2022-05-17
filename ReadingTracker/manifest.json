@@ -1,0 +1,33 @@
+{
+	"manifest_version": 2,
+	"name": "Reading Tracker",
+	"version": "1.0",
+	"description": "Keeps track of where the user left their web-book at.",
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js": [
+				"popup.js"
+			]
+		}
+	],
+	"background": {
+		"scripts": [
+			"background.js"
+		]
+	},
+	"permissions": [
+		"webNavigation",
+		"storage",
+		"bookmarks",
+		"<all_urls>",
+		"tabs"
+	],
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_title": "Reading Tracker",
+		"default_popup": "view.html"
+	}
+}
