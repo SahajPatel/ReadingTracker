@@ -58,8 +58,16 @@ function successGetKeys(result) {
 	Promise.resolve(header).then(value => {
 		URLname = value[0]['url'];
 		console.log(URLname);
+
 		for (var key in keys) {
-			console.log(result[keys[key]]);
+			// console.log(result[keys[key]]);
+			if (URLname.indexOf(keys[key]) !== -1) {
+				console.log("Found a URL with this key:" + keys[key]);
+				console.log(result[keys[key]]);
+				console.log("This is the index: " + URLname.indexOf(keys[key]));
+			} else {
+				console.log("This Ain't It...");
+			}
 		}
 	});
 
