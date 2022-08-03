@@ -7,22 +7,35 @@
 </head>
 
 <body>
-	<div id="popup-content">
-		<div id="input1" style="width: 300px; display:flex">
-			<p>Name: </p>
-			<input type="text" id="name">
-		</div>
-		<div id="input2" style="width: 300px; display:flex">
-			<p>Context: </p>
-			<input type="text" id="context">
-		</div>
-		<div id="input1" style="width: 300px; display:flex">
-			<p>Base URL: </p>
-			<input type="text" id="baseurl">
-		</div>
-		<button id="test">Click Me</button>
-		<button id="getStorage">get storage</button>
-		<p class="attribution">Icons by Font Awesome</p>
+	<table>
+		<tr>
+			<td>
+				<p>Name: </p>
+			</td>
+			<td>
+				<input type="text" id="name">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>Base URL: </p>
+			</td>
+			<td>
+				<input type="text" id="baseurl">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>Context: </p>
+			</td>
+			<td>
+				<input type="text" id="context">
+			</td>
+		</tr>
+	</table>
+	<button id="test">Click Me</button>
+	<button id="getStorage">Get Storage</button>
+	<button id="clearStorage">Clear Storage</button>
 	</div>
 	<script src="popup.js" 'activeJS'></script>
 </body>
