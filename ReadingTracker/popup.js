@@ -1,11 +1,6 @@
 // ADDING SITES
 function successAddSite(result) {
-	var keys = [];
-	for (var k in result) keys.push(k);
-	console.log(keys);
-	for (var key in keys) {
-		console.log("Success at adding the site: " + JSON.stringify(result, key))
-	}
+	console.log("Succuess in adding the site.");
 }
 
 function failureAddSite(error) {
@@ -25,11 +20,14 @@ function addSite() {
 
 // GETTING SITES
 function successCallback(result) {
-	console.log("Retrieved all storage: " + result);
-	var keys = [];
+	console.log("Retrieved storage!");
+	let keys = [];
 	for (var k in result) keys.push(k);
-	console.log(keys);
-	console.log(JSON.stringify(result));
+	for (var key in keys) {
+		let name = JSON.stringify(result[keys[key]].name);
+		let oldContext = JSON.stringify(result[keys[key]].context);
+		console.log("baseURL: ", keys[key], " name: ", name, " context: ", oldContext, "\n");
+	}
 }
 
 function failureCallback(error) {
@@ -46,7 +44,13 @@ function clearStorage() {
 	browser.storage.local.clear();
 }
 
-// UPDATE SITES
+/* 
+Variables:
+	fullURL: the full URL of the page the user has just loaded.
+	name: the stored name of the current URL/Context pair.
+	context: The stored context for the site currently loaded.
+	
+*/
 function successGetKeys(result) {
 	console.log("Retrieved storage!");
 	var keys = [];
@@ -56,24 +60,35 @@ function successGetKeys(result) {
 	const header = browser.tabs.query({ currentWindow: true, active: true });
 	// if the 'Promise' object gets a good result, we will do stuff.
 	Promise.resolve(header).then(value => {
-		URLname = value[0]['url'];
-		console.log(URLname);
+		fullURL = value[0]['url'];
+		// console.log(fullURL);
 
 		for (var key in keys) {
 			// console.log(result[keys[key]]);
-			if (URLname.indexOf(keys[key]) !== -1) {
-				console.log("Found a URL with this key:" + keys[key]);
-				console.log(result[keys[key]]);
-				console.log("This is the index: " + URLname.indexOf(keys[key]));
-			} else {
-				console.log("This Ain't It...");
+			if (fullURL.indexOf(keys[key]) !== -1) {
+				// console.log(keys[key]);
+				// console.log(JSON.stringify(result[keys[key]]));
+				if (keys[key] !== JSON.stringify(result[keys[key]])) {
+					// console.log("Found a URL with this key: " + keys[key]);
+					// console.log(result[keys[key]]);
+					// console.log("This is the index: " + URLname.indexOf(keys[key]));
+					let name = JSON.stringify(result[keys[key]].name);
+					// let oldContext = JSON.stringify(result[keys[key]].context);
+					let context = fullURL.replace(keys[key], "");
+					let newSite = {
+						[keys[key]]: { context, name }
+					}
+					var temp = browser.storage.local.set(newSite).then(successAddSite, failureAddSite);
+				} else {
+					console.log("This baseurl + context is already stored!");
+				}
 			}
 		}
 	});
 
 }
 
-var URLname;
+var fullURL;
 function updateURL() {
 	browser.storage.local.get().then(successGetKeys, failureCallback)
 }
